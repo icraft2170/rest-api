@@ -2,6 +2,7 @@ package me.hero.restapi.events;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
@@ -9,7 +10,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Builder @AllArgsConstructor
+@Entity
 public class Event {
+
+    @Id @GeneratedValue
+    private Integer id;
+
     private String name;
     private String description;
     private LocalDateTime beginEnrollmentDateTime;
@@ -20,11 +26,10 @@ public class Event {
     private int basePrice; // (optional)
     private int maxPrice; // (optional)
     private int limitOfEnrollment;
-
-
-    private Integer id;
     private boolean offline;
     private boolean free;
-    private EventStatus eventStatus = EventStatus.DRAFT;
+    @Enumerated(EnumType.STRING)
+    private EventStatus eventStatus;
+
 
 }
