@@ -1,6 +1,7 @@
 package me.hero.restapi.events;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class EventController {
 
     private final EventRepository eventRepository;
+    private final ModelMapper modelMapper;
 
     @PostMapping
-    public ResponseEntity createEvent(@RequestBody Event event){
-        Event newEvent = this.eventRepository.save(event);
+    public ResponseEntity createEvent(@RequestBody EventDto event){
+        Event newEvent = this.eventRepository.save(modelMapper.map(event,Event.class));
         URI createUri =
                 linkTo(EventController.class).slash(newEvent.getId()).toUri();
 
