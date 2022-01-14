@@ -1,7 +1,7 @@
 package me.hero.restapi.events;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.hero.restapi.common.TestDescription;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +34,7 @@ public class EventControllerTests {
 
 
     @Test
+    @TestDescription("정상적인 이벤트 생성하는 테스트")
     void createEvent() throws Exception{
         EventDto event = EventDto.builder()
                 .name("spring")
@@ -66,6 +67,7 @@ public class EventControllerTests {
 
 
     @Test
+    @TestDescription("입력 불가한 값을 사용하여 생성하는 테스트")
     void createEvent_Bad_Request() throws Exception{
         Event event = Event.builder()
                 .id(100)
@@ -96,6 +98,7 @@ public class EventControllerTests {
     }
 
     @Test
+    @TestDescription("입력 값이 비어있는 경우에 에러가 발생하는 테스트")
     void createEvent_Bad_Request_Empty_Input() throws Exception {
         EventDto eventDto = EventDto.builder().build();
 
@@ -109,6 +112,7 @@ public class EventControllerTests {
 
 
     @Test
+    @TestDescription("입력 값이 잘못된 경우에 에러가 발생하는 테스트")
     void createEvent_Bad_Request_Wrong_Input() throws Exception {
         EventDto eventDto = EventDto.builder()
                 .name("spring")
