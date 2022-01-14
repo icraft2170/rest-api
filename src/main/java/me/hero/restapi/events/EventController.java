@@ -5,11 +5,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
@@ -24,7 +26,15 @@ public class EventController {
     private final ModelMapper modelMapper;
 
     @PostMapping
-    public ResponseEntity createEvent(@RequestBody EventDto event){
+    public ResponseEntity createEvent(@RequestBody @Valid EventDto event
+                                                        , Errors errors){
+        if (errors.hasErrors()) {
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
+
+
         Event newEvent = this.eventRepository.save(modelMapper.map(event,Event.class));
         URI createUri =
                 linkTo(EventController.class).slash(newEvent.getId()).toUri();
